@@ -1,17 +1,19 @@
 import tkinter as tk
 
-# Define dictionaries to store button colors
+# Dictionaries storing button colors
 r_button_color = {}
 g_button_color = {}
 b_button_color = {}
 
 
+# Returns the color of button
 def get_button_color(row, col, color_dict):
     button_id = f'{color_dict["prefix"]}{row + 1}{col + 1}'
     return color_dict.get(button_id, 'black')  # Default to black if button_id not found
 
 
-def color_mixing(frame, row, col):
+# Mixing RGB colors and displaying them
+def color_mixing(row, col):
     red_color = get_button_color(row, col, r_button_color)
     green_color = get_button_color(row, col, g_button_color)
     blue_color = get_button_color(row, col, b_button_color)
@@ -34,7 +36,8 @@ def color_mixing(frame, row, col):
         solution_color = 'white'
 
     print(
-        f"r{row + 1},{col + 1}: {red_color}, g{row + 1},{col + 1}: {green_color}, b{row + 1},{col + 1}: {blue_color}, solution: {solution_color}")
+        f"r{row + 1},{col + 1}: {red_color}, g{row + 1},{col + 1}: {green_color}, b{row + 1},{col + 1}: {blue_color}, "
+        f"solution: {solution_color}")
 
     # Update solution color on the white grid
     button_id = f'white{row + 1}{col + 1}'
@@ -46,11 +49,12 @@ def create_color_button(frame, color, row, col, color_dict):
     button_id = f'{color[0]}{row + 1}{col + 1}'
     color_dict[button_id] = color
     button = tk.Button(frame, bg=color, width=1, height=1,
-                       command=lambda: toggle_color(frame, button, color, row, col, color_dict))
+                       command=lambda: toggle_color(button, color, row, col, color_dict))
     button.grid(row=row, column=col, sticky='nsew')
 
 
-def toggle_color(frame, button, original_color, row, col, color_dict):
+# Changes the button color on click back and forth
+def toggle_color(button, original_color, row, col, color_dict):
     current_color = button.cget('bg')
     new_color = 'black' if current_color == original_color else original_color
     button.configure(bg=new_color)
@@ -58,7 +62,7 @@ def toggle_color(frame, button, original_color, row, col, color_dict):
     button_id = f'{color_dict["prefix"]}{row + 1}{col + 1}'
     color_dict[button_id] = new_color  # Update the color in the dictionary
 
-    color_mixing(frame, row, col)
+    color_mixing(row, col)
 
 
 def create_color_boxes(root):
@@ -99,7 +103,7 @@ def create_white_grid_buttons(frame, num_buttons):
 
 def main():
     root = tk.Tk()
-    root.title("Color Boxes Program")
+    root.title("RGB Mixing by Kamil Ptak")
 
     create_color_boxes(root)
 
